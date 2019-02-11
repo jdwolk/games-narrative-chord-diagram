@@ -1,0 +1,313 @@
+<html>
+
+<div class="title-container">
+  <h1>Storytelling Elements in Games</h1>
+</div>
+<div id="chartdiv"></div>
+
+<style>
+.title-container h1 {
+  color: grey;
+  font-weight: 100;
+}
+
+@media only screen and (max-width: 1078px){
+  #chartdiv {
+    width: 100%;
+    height: 80vh;
+  }
+
+  .title-container {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+  }
+}
+
+@media only screen and (min-width: 1079px){
+  #chartdiv {
+    width: 100%;
+    height: 800px;
+  }
+
+  .title-container {
+    position: absolute;
+    left: 100px;
+    top: 30px;
+    width: 50px;
+  }
+}
+
+
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+
+<!-- Chart code -->
+<script>
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4charts.ChordDiagram);
+
+const PandemicLegacy = 'PANDEMIC LEGACY';
+const NemosWar = 'NEMOS WAR';
+const DeadOfWinter = 'DEAD OF WINTER';
+const SeventhContinent = '7TH CONTINENT';
+const ArkhamHorrorLCG = 'ARKHAM HORROR LCG';
+const ArkhamEldritchHorror = 'ARKHAM / ELDRITCH HORROR';
+const Gloomhaven = 'GLOOMHAVEN';
+const StuffedFables = 'STUFFED FABLES';
+const AboveAndBelow = 'ABOVE AND BELOW';
+const Scythe = 'SCYTHE';
+const ScytheFenris = 'SCYTHE: RISE OF FENRIS';
+
+const Concepts = 'Concepts';
+
+const eventTriggered = 'event triggered';
+const libraryLookup = 'library / lookup';
+const narrativeViaPlayerChoice = 'narrative via player choice';
+const eventDecks = 'event deck(s)';
+const narrativeViaMacroOutcome = 'narrative via macro outcome';
+const cards = 'cards';
+const strictStructure = 'strict structure';
+const narrativeViaStatCheck = 'narrative via stat check';
+const book = 'book';
+const physicalityLocation = 'physicality / location';
+const looseStructure = 'loose structure';
+
+// colors of main characters
+chart.colors.saturation = 0.45;
+chart.colors.step = 3;
+var colors = {
+  [PandemicLegacy]: chart.colors.next(),
+  [NemosWar]: chart.colors.next(),
+  [DeadOfWinter]: chart.colors.next(),
+  [SeventhContinent]: chart.colors.next(),
+  [ArkhamHorrorLCG]: chart.colors.next(),
+  [ArkhamEldritchHorror]: chart.colors.next(),
+  [Gloomhaven]: chart.colors.next(),
+  [StuffedFables]: chart.colors.next(),
+  [AboveAndBelow]: chart.colors.next(),
+  [Scythe]: chart.colors.next(),
+  [ScytheFenris]: chart.colors.next(),
+  [Concepts]: chart.colors.next()
+}
+
+// data was provided by: https://www.reddit.com/user/notrudedude
+
+chart.data = [
+// node property fields take data from data items where they are first mentioned, that's
+// why we add empty data items at the beginning and set colors here
+
+{ from: PandemicLegacy, image: '', color: colors.PandemicLegacy },
+{ from: NemosWar, image: '', color: colors.NemosWar },
+{ from: DeadOfWinter, image: '', color:  colors.DeadOfWinter },
+{ from: SeventhContinent, image: '', color: colors.SeventhContinent },
+{ from: ArkhamHorrorLCG, image: '', color: colors.ArkhamHorrorLCG },
+{ from: ArkhamEldritchHorror, image: '', color: colors.ArkhamEldritchHorror },
+{ from: Gloomhaven, image: '', color: colors.Gloomhaven },
+{ from: StuffedFables, image: '', color: colors.StuffedFables },
+{ from: AboveAndBelow, image: '', color: colors.AboveAndBelow },
+{ from: Scythe, image: '', color: colors.Scythe },
+{ from: ScytheFenris, image: '', color: colors.ScytheFenris },
+
+{ from: eventTriggered, image: '', color: colors.Concepts },
+{ from: libraryLookup, image: '', color: colors.Concepts },
+{ from: narrativeViaPlayerChoice, image: '', color: colors.Concepts },
+{ from: eventDecks, color: colors.Concepts },
+{ from: narrativeViaMacroOutcome, color: colors.Concepts },
+{ from: cards, color: colors.Concepts },
+{ from: strictStructure, color: colors.Concepts },
+{ from: narrativeViaStatCheck, color: colors.Concepts },
+{ from: book, color: colors.Concepts },
+{ from: physicalityLocation, color: colors.Concepts },
+{ from: looseStructure, color: colors.Concepts },
+
+
+{ from: PandemicLegacy, to: eventDecks, value: 1 },
+{ from: PandemicLegacy, to: cards, value: 1 },
+{ from: PandemicLegacy, to: strictStructure, value: 1 },
+{ from: PandemicLegacy, to: narrativeViaMacroOutcome, value: 1 },
+
+{ from: NemosWar, to: eventDecks, value: 1 },
+{ from: NemosWar, to: cards, value: 1 },
+{ from: NemosWar, to: narrativeViaStatCheck, value: 1 },
+{ from: NemosWar, to: strictStructure, value: 1 },
+{ from: NemosWar, to: narrativeViaMacroOutcome, value: 1 },
+
+{ from: DeadOfWinter, to: eventDecks, value: 1 },
+{ from: DeadOfWinter, to: eventTriggered, value: 1 },
+{ from: DeadOfWinter, to: narrativeViaPlayerChoice, value: 1 },
+{ from: DeadOfWinter, to: looseStructure, value: 1 },
+{ from: DeadOfWinter, to: cards, value: 1 },
+
+{ from: SeventhContinent, to: libraryLookup, value: 1 },
+{ from: SeventhContinent, to: narrativeViaPlayerChoice, value: 1 },
+{ from: SeventhContinent, to: cards, value: 1 },
+{ from: SeventhContinent, to: eventDecks, value: 1 },
+{ from: SeventhContinent, to: physicalityLocation, value: 1 },
+{ from: SeventhContinent, to: looseStructure, value: 1 },
+
+{ from: ArkhamHorrorLCG, to: strictStructure, value: 1 },
+{ from: ArkhamHorrorLCG, to: cards, value: 1 },
+{ from: ArkhamHorrorLCG, to: physicalityLocation, value: 1 },
+{ from: ArkhamHorrorLCG, to: narrativeViaMacroOutcome, value: 1 },
+{ from: ArkhamHorrorLCG, to: narrativeViaStatCheck, value: 1 },
+
+
+{ from: ArkhamEldritchHorror, to: physicalityLocation, value: 1 },
+{ from: ArkhamEldritchHorror, to: looseStructure, value: 1 },
+{ from: ArkhamEldritchHorror, to: cards, value: 1 },
+{ from: ArkhamEldritchHorror, to: eventDecks, value: 1 },
+{ from: ArkhamEldritchHorror, to: narrativeViaStatCheck, value: 1 },
+
+{ from: Gloomhaven, to: physicalityLocation, value: 1 },
+{ from: Gloomhaven, to: narrativeViaMacroOutcome, value: 1 },
+{ from: Gloomhaven, to: narrativeViaPlayerChoice, value: 1 },
+{ from: Gloomhaven, to: cards, value: 1 },
+{ from: Gloomhaven, to: strictStructure, value: 1 },
+{ from: Gloomhaven, to: eventDecks, value: 1 },
+{ from: Gloomhaven, to: book, value: 1 },
+
+{ from: StuffedFables, to: strictStructure, value: 1 },
+{ from: StuffedFables, to: book, value: 1 },
+{ from: StuffedFables, to: narrativeViaMacroOutcome, value: 1 },
+{ from: StuffedFables, to: eventDecks, value: 1 },
+
+{ from: AboveAndBelow, to: looseStructure, value: 1 },
+{ from: AboveAndBelow, to: book, value: 1 },
+{ from: AboveAndBelow, to: narrativeViaPlayerChoice, value: 1 },
+{ from: AboveAndBelow, to: libraryLookup, value: 1 },
+
+{ from: Scythe, to: narrativeViaPlayerChoice, value: 1 },
+{ from: Scythe, to: eventDecks, value: 1 },
+{ from: Scythe, to: cards, value: 1 },
+{ from: Scythe, to: looseStructure, value: 1 },
+
+{ from: ScytheFenris, to: narrativeViaMacroOutcome, value: 1 },
+{ from: ScytheFenris, to: strictStructure, value: 1 },
+{ from: ScytheFenris, to: book, value: 1 },
+
+]
+
+chart.dataFields.fromName = "from";
+chart.dataFields.toName = "to";
+chart.dataFields.value = "value";
+
+chart.nodePadding = 0.5;
+chart.minNodeSize = 0.01;
+chart.startAngle = 80;
+chart.endAngle = chart.startAngle + 360;
+chart.sortBy = "name";
+chart.fontSize = 10;
+
+var nodeTemplate = chart.nodes.template;
+nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
+nodeTemplate.showSystemTooltip = true;
+nodeTemplate.propertyFields.fill = "color";
+nodeTemplate.tooltipText = "{name}";
+nodeTemplate.draggable = false;
+
+// when rolled over the node, make all the links rolled-over
+nodeTemplate.events.on("over", function(event) {
+    var node = event.target;
+    node.outgoingDataItems.each(function(dataItem) {
+        if(dataItem.toNode){
+            dataItem.link.isHover = true;
+            dataItem.toNode.label.isHover = true;
+        }
+    })
+    node.incomingDataItems.each(function(dataItem) {
+        if(dataItem.fromNode){
+            dataItem.link.isHover = true;
+            dataItem.fromNode.label.isHover = true;
+        }
+    })
+
+    node.label.isHover = true;
+})
+
+// when rolled out from the node, make all the links rolled-out
+nodeTemplate.events.on("out", function(event) {
+    var node = event.target;
+    node.outgoingDataItems.each(function(dataItem) {
+        if(dataItem.toNode){
+            dataItem.link.isHover = false;
+            dataItem.toNode.label.isHover = false;
+        }
+    })
+    node.incomingDataItems.each(function(dataItem) {
+        if(dataItem.fromNode){
+            dataItem.link.isHover = false;
+           dataItem.fromNode.label.isHover = false;
+        }
+    })
+
+    node.label.isHover = false;
+})
+
+var label = nodeTemplate.label;
+label.relativeRotation = 90;
+
+label.fillOpacity = 0.4;
+let labelHS = label.states.create("hover");
+labelHS.properties.fillOpacity = 1;
+
+nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+nodeTemplate.adapter.add("fill", function(fill, target) {
+    let node = target;
+    let counters = {};
+    let mainChar = false;
+    node.incomingDataItems.each(function(dataItem) {
+        if(colors[dataItem.toName]){
+            mainChar = true;
+        }
+
+        if(isNaN(counters[dataItem.fromName])){
+            counters[dataItem.fromName] = dataItem.value;
+        }
+        else{
+            counters[dataItem.fromName] += dataItem.value;
+        }
+    })
+    if(mainChar){
+        return fill;
+    }
+
+    let count = 0;
+    let color;
+    let biggest = 0;
+    let biggestName;
+
+    for(var name in counters){
+        if(counters[name] > biggest){
+            biggestName = name;
+            biggest = counters[name];
+        }
+    }
+    if(colors[biggestName]){
+        fill = colors[biggestName];
+    }
+
+    return fill;
+})
+
+// link template
+var linkTemplate = chart.links.template;
+linkTemplate.strokeOpacity = 0;
+linkTemplate.middleLine.strokeWidth = 2;
+linkTemplate.fillOpacity = 0.15;
+linkTemplate.tooltipText = "{fromName} & {toName}";
+
+var hoverState = linkTemplate.states.create("hover");
+hoverState.properties.fillOpacity = 0.7;
+hoverState.properties.strokeOpacity = 0.7;
+</script>
+</html>
